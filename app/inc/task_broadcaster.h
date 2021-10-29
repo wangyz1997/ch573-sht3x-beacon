@@ -1,18 +1,11 @@
-#ifndef __BROADCASTER_H
-#define __BROADCASTER_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifndef __TASK_BROADCASTER_H
+#define __TASK_BROADCASTER_H
 
 #include "CH57x_common.h"
+#include "CH57xBLE_LIB.h"
 
-extern uint8_t broadcaster_task_id;
+extern tmosTaskID broadcaster_task_id;
 
 void broadcaster_task_init(void);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif

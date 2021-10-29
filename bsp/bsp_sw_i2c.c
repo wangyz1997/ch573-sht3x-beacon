@@ -6,7 +6,7 @@
  */
 void i2c_delay()
 {
-    __nop(); __nop();  __nop(); //Լ400kHz
+    __nop(); __nop(); __nop(); //Լ400kHz
 }
 
 /**

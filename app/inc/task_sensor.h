@@ -13,4 +13,6 @@ typedef struct {
     int16_t humid;
 } sensor_event_data_t;
 
+void sensor_task_init();
+
 #endif
