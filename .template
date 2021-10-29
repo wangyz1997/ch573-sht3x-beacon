@@ -1,0 +1,13 @@
+
+Vendor=WCH
+Link=WCH-Link
+Toolchain=
+Series=
+Description=
+Mcu Type=CH57x
+Address=0x00000000
+Erase All=true
+Program=true
+Verify=false
+Reset=true
+Target Path=Build\ch573-sht3x.hex
