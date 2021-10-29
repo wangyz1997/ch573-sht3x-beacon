@@ -124,9 +124,9 @@ typedef volatile unsigned long long  *PUINT64V;
 #endif
 
 #ifdef  DEBUG
-#define PRINT(X...) printf(X)
+#define PRINT(...) printf(__VA_ARGS__)
 #else
-#define PRINT(X...)
+#define PRINT(...)
 #endif
 
 /* Calculate the byte offset of a field in a structure of type */
