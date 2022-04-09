@@ -62,11 +62,22 @@
 #define BLE_MEM_POOL_SIZE (1024*6)
 
 /* 传感器检测周期，单位为秒 */
-#define SENSOR_UPDATE_PERIOD 5
+#define SENSOR_UPDATE_PERIOD 60
+
+/* 电池电压检测周期，单位为秒 */
+#define ADC_UPDATE_PERIOD 60*30 //0.5h
+
+/* 蓝牙广播周期，单位为秒 */
+#define BLE_ADVERTISE_PERIOD 2
+
+/* 校准蓝牙射频周期，单位为秒 */
+#define BLE_CALIBRATION_PERIOD 300
+
+/* 蓝牙发射功率 */
+#define BLE_TX_POWER LL_TX_POWEER_0_DBM
 
 #define WAKE_UP_RTC_MAX_TIME				45
 
-#define BLE_CALIBRATION_PERIOD			120000
 
 #ifndef BLE_BUFF_MAX_LEN
 #define BLE_BUFF_MAX_LEN						27
@@ -78,7 +89,6 @@
 #define BLE_TX_NUM_EVENT						1
 #endif
 
-#define BLE_TX_POWER LL_TX_POWEER_0_DBM
 
 #ifndef PERIPHERAL_MAX_CONNECTION
 #define PERIPHERAL_MAX_CONNECTION		1
