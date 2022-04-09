@@ -3,6 +3,7 @@
 
 /* TMOS消息事件定义 */
 #define SENSOR_RESULT_EVENT 0x77 //传感器数值更新事件
+#define ADC_RESULT_EVENT 0x78 //电池电压更新事件
 
 #include "CH57xBLE_LIB.h"
 #include "CH57x_common.h"

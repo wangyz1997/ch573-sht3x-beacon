@@ -8,7 +8,7 @@ tmosTaskID broadcaster_task_id; //tmos任务ID
 /* 广播参数 */
 static uint8_t conf_advertising_enable = FALSE;                  //启用广播
 static uint8_t conf_adv_event_type = GAP_ADTYPE_ADV_NONCONN_IND; //不可连接
-static uint16_t conf_adv_intervel = 1600;                        //广播间隔设置，实际周期为数值*625us
+static uint16_t conf_adv_intervel = MS1_TO_SYSTEM_TIME(BLE_ADVERTISE_PERIOD*1000); //广播间隔设置，实际周期为数值*625us
 
 /* 广播数据 最大31字节 */
 static uint8_t advertising_data[30] = {
@@ -53,6 +53,19 @@ void broadcaster_sensor_event_handler(sensor_event_data_t *pmsg)
         broadcaster_task_id, TRUE, sizeof(advertising_data), advertising_data);
 }
 
+void broadcaster_adc_event_handler(tmos_event_hdr_t *pmsg)
+{
+    /* 在更新广播数据前关闭广播 */
+    conf_advertising_enable = FALSE;
+    GAPRole_SetParameter(GAPROLE_ADVERT_ENABLED, sizeof(uint8_t), &conf_advertising_enable);
+
+    advertising_data[29] = pmsg->status; //更新电池电压数值
+
+    /* 更新广播数据 */
+    bStatus_t error = GAP_UpdateAdvertisingData(
+        broadcaster_task_id, TRUE, sizeof(advertising_data), advertising_data);
+}
+
 uint16_t broadcaster_event_handler(uint8_t task_id, uint16_t events)
 {
     if (events & SYS_EVENT_MSG) {
@@ -63,6 +76,10 @@ uint16_t broadcaster_event_handler(uint8_t task_id, uint16_t events)
             switch (((tmos_event_hdr_t *)pmsg)->event) {
             case SENSOR_RESULT_EVENT: //传感器数值更新事件
                 broadcaster_sensor_event_handler((sensor_event_data_t*)pmsg);
+                break;
+
+            case ADC_RESULT_EVENT: //ADC读数更新事件
+                broadcaster_adc_event_handler((tmos_event_hdr_t*)pmsg);
                 break;
 
             case GAP_MSG_EVENT: //BLE GAP事件
