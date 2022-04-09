@@ -43,19 +43,19 @@ uint32_t mcu_enter_lowpower(uint32_t time)
 
     SYS_DisableAllIrq(&irq_status);
     tmp = RTC_GetCycle32k();
-    if ((time < tmp) || ((time - tmp) < 30)) { //检测睡眠的最短时间
+    if((time < tmp) || ((time - tmp) < 30)) { //检测睡眠的最短时间
         SYS_RecoverIrq(irq_status);
         return 2;
     }
     mcu_set_rtc_trigger_time(time);
     SYS_RecoverIrq(irq_status);
-#if (DEBUG == Debug_UART1) //等待串口FIFO发送完成
+#if DEBUG == Debug_UART1 //等待串口FIFO发送完成
     while ((R8_UART1_LSR & RB_LSR_TX_ALL_EMP) == 0) {
         __nop();
     }
 #endif
-    // LOW POWER-sleep模式
-    if (!rtc_trig_flag) {
+    //LOW POWER-sleep模式
+    if(!rtc_trig_flag) {
         LowPower_Sleep(RB_PWR_RAM2K | RB_PWR_RAM16K | RB_PWR_EXTEND);
 #if (defined(DCDC_ENABLE)) && (DCDC_ENABLE == TRUE)
         PWR_DCDCCfg(ENABLE);
@@ -64,7 +64,7 @@ uint32_t mcu_enter_lowpower(uint32_t time)
         if (time > 0xA8C00000) time -= 0xA8C00000;
         mcu_set_rtc_trigger_time(time);
         LowPower_Idle();
-        HSECFG_Current(HSE_RCur_100); // 降为额定电流(低功耗函数中提升了HSE偏置电流)
+        HSECFG_Current(HSE_RCur_100); //降为额定电流(低功耗函数中提升了HSE偏置电流)
     } else {
         return 3;
     }
@@ -78,8 +78,8 @@ void mcu_power_init()
     SetSysClock(CLK_SOURCE_PLL_60MHz);
     GPIOA_ResetBits(GPIO_Pin_All);
     GPIOB_ResetBits(GPIO_Pin_All);
-    GPIOA_ModeCfg(GPIO_Pin_All, GPIO_ModeIN_PU);
-    GPIOB_ModeCfg(GPIO_Pin_All, GPIO_ModeIN_PU);
+    GPIOA_ModeCfg(GPIO_Pin_All, GPIO_ModeIN_PD);
+    GPIOB_ModeCfg(GPIO_Pin_All, GPIO_ModeIN_PD);
 }
 
 void mcu_timer_init()

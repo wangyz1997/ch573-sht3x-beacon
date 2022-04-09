@@ -23,7 +23,7 @@ void bsp_ble_init(void)
     ble_cfg.BufNumber = (uint32_t)BLE_BUFF_NUM;
     ble_cfg.TxNumEvent = (uint32_t)BLE_TX_NUM_EVENT;
     ble_cfg.TxPower = (uint32_t)BLE_TX_POWER;
-    ble_cfg.SelRTCClock = (uint32_t)CLK_OSC32K;
+    ble_cfg.SelRTCClock = (uint32_t)CLK_OSC32K; //使用外部32k晶振
     ble_cfg.ConnectNumber = (PERIPHERAL_MAX_CONNECTION & 3) | (CENTRAL_MAX_CONNECTION << 2);
     ble_cfg.srandCB = SYS_GetSysTickCnt;
     ble_cfg.tsCB = mcu_get_internal_temp; //根据温度变化校准RF和内部RC
