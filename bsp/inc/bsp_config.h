@@ -5,75 +5,75 @@
 #define CHIP_ID								ID_CH573
 
 /*********************************************************************
- ��MAC��
- BLE_MAC											- �Ƿ��Զ�������Mac��ַ ( Ĭ��:FALSE - ʹ��оƬMac��ַ )����Ҫ��main.c�޸�Mac��ַ����
+ 【MAC】
+ BLE_MAC											- 是否自定义蓝牙Mac地址 ( 默认:FALSE - 使用芯片Mac地址 )，需要在main.c修改Mac地址定义
 
- ��DCDC��
- DCDC_ENABLE                  - �Ƿ�ʹ��DCDC ( Ĭ��:FALSE )
+ 【DCDC】
+ DCDC_ENABLE                  - 是否使能DCDC ( 默认:FALSE )
 
- ��SLEEP��
- HAL_SLEEP   									- �Ƿ���˯�߹��� ( Ĭ��:FALSE )
- WAKE_UP_RTC_MAX_TIME					- �ȴ�32M�����ȶ�ʱ�䣬���ݲ�ͬ˯������ȡֵ�ɷ�Ϊ�� ˯��ģʽ/�µ�ģʽ         -	45(Ĭ��)
-                                                                                                                                                                                        ��ͣģʽ					-	45
-                                                                                                                                                                                        ����ģʽ					-	5
+ 【SLEEP】
+ HAL_SLEEP   									- 是否开启睡眠功能 ( 默认:FALSE )
+ WAKE_UP_RTC_MAX_TIME					- 等待32M晶振稳定时间，根据不同睡眠类型取值可分为： 睡眠模式/下电模式         -	45(默认)
+                                                                                                                                                                                        暂停模式					-	45
+                                                                                                                                                                                        空闲模式					-	5
  
- ��TEMPERATION��
- TEM_SAMPLE										- �Ƿ�򿪸����¶ȱ仯У׼�Ĺ��ܣ�����У׼��ʱС��10ms( Ĭ��:TRUE )
+ 【TEMPERATION】
+ TEM_SAMPLE										- 是否打开根据温度变化校准的功能，单次校准耗时小于10ms( 默认:TRUE )
  
- ��CALIBRATION��
- BLE_CALIBRATION_ENABLE				- �Ƿ�򿪶�ʱУ׼�Ĺ��ܣ�����У׼��ʱС��10ms( Ĭ��:TRUE )
- BLE_CALIBRATION_PERIOD				- ��ʱУ׼�����ڣ���λms( Ĭ��:120000 ) 
+ 【CALIBRATION】
+ BLE_CALIBRATION_ENABLE				- 是否打开定时校准的功能，单次校准耗时小于10ms( 默认:TRUE )
+ BLE_CALIBRATION_PERIOD				- 定时校准的周期，单位ms( 默认:120000 ) 
  
- ��SNV��
- BLE_SNV    				          - �Ƿ���SNV���ܣ����ڴ������Ϣ( Ĭ��:TRUE )
- BLE_SNV_ADDR    					    - SNV��Ϣ�����ַ��ʹ��data flash���( Ĭ��:0x77E00 )
+ 【SNV】
+ BLE_SNV    				          - 是否开启SNV功能，用于储存绑定信息( 默认:TRUE )
+ BLE_SNV_ADDR    					    - SNV信息保存地址，使用data flash最后( 默认:0x77E00 )
 
- ��RTC��
- CLK_OSC32K										- RTCʱ��ѡ�������������ɫ����ʹ���ⲿ32K( Ĭ��:0 �ⲿ(32768Hz)��1���ڲ�(32000Hz)��2���ڲ�(32768Hz) )
+ 【RTC】
+ CLK_OSC32K										- RTC时钟选择，如包含主机角色必须使用外部32K( 默认:0 外部(32768Hz)，1：内部(32000Hz)，2：内部(32768Hz) )
 
- ��MEMORY��
- BLE_MEMHEAP_SIZE  						- ����Э��ջʹ�õ�RAM��С����С��6K ( Ĭ��:(1024*6) )
+ 【MEMORY】
+ BLE_MEMHEAP_SIZE  						- 蓝牙协议栈使用的RAM大小，不小于6K ( 默认:(1024*6) )
 
- ��DATA��
- BLE_BUFF_MAX_LEN							- ����������������( Ĭ��:27 (ATT_MTU=23)��ȡֵ��Χ[27~251] )
- BLE_BUFF_NUM									- ����������İ�����( Ĭ��:5 )
- BLE_TX_NUM_EVENT							- ���������¼������Է����ٸ����ݰ�( Ĭ��:1 )
- BLE_TX_POWER									- ���书��( Ĭ��:LL_TX_POWEER_0_DBM (0dBm) )
+ 【DATA】
+ BLE_BUFF_MAX_LEN							- 单个连接最大包长度( 默认:27 (ATT_MTU=23)，取值范围[27~251] )
+ BLE_BUFF_NUM									- 控制器缓存的包数量( 默认:5 )
+ BLE_TX_NUM_EVENT							- 单个连接事件最多可以发多少个数据包( 默认:1 )
+ BLE_TX_POWER									- 发射功率( 默认:LL_TX_POWEER_0_DBM (0dBm) )
  
- ��MULTICONN��
- PERIPHERAL_MAX_CONNECTION	  - ����ͬʱ�����ٴӻ���ɫ( Ĭ��:1 )
- CENTRAL_MAX_CONNECTION				- ����ͬʱ������������ɫ( Ĭ��:3 )
+ 【MULTICONN】
+ PERIPHERAL_MAX_CONNECTION	  - 最多可同时做多少从机角色( 默认:1 )
+ CENTRAL_MAX_CONNECTION				- 最多可同时做多少主机角色( 默认:3 )
  **********************************************************************/
 
 /*********************************************************************
- * Ĭ������ֵ
+ * 默认配置值
  */
 
-/* �Ƿ���DC-DC����ҪӲ����·֧�� */
+/* 是否开启DC-DC，需要硬件电路支持 */
 #define DCDC_ENABLE TRUE
 
-/* �Ƿ����õ͹���˯�߹��ܣ�ʹ�ܺ��޷����� */
+/* 是否启用低功耗睡眠功能，使能后无法调试 */
 #define HAL_SLEEP TRUE
 
-/* RTCʱ��ѡ�������������ɫ����ʹ���ⲿ32K��0���ⲿ(32768Hz)��1���ڲ�(32000Hz)��2���ڲ�(32768Hz) */
+/* RTC时钟选择，如包含主机角色必须使用外部32K。0：外部(32768Hz)，1：内部(32000Hz)，2：内部(32768Hz) */
 #define CLK_OSC32K  0
 
-/* BLEЭ��ջ�ڴ��С */
+/* BLE协议栈内存大小 */
 #define BLE_MEM_POOL_SIZE (1024*6)
 
-/* ������������ڣ���λΪ�� */
+/* 传感器检测周期，单位为秒 */
 #define SENSOR_UPDATE_PERIOD 60
 
-/* ��ص�ѹ������ڣ���λΪ�� */
+/* 电池电压检测周期，单位为秒 */
 #define ADC_UPDATE_PERIOD 60*30 //0.5h
 
-/* �����㲥���ڣ���λΪ�� */
+/* 蓝牙广播周期，单位为秒 */
 #define BLE_ADVERTISE_PERIOD 2
 
-/* У׼������Ƶ���ڣ���λΪ�� */
-#define BLE_CALIBRATION_PERIOD 300
+/* 校准蓝牙射频周期，单位为豪秒 */
+#define BLE_CALIBRATION_PERIOD （300*1000）
 
-/* �������书�� */
+/* 蓝牙发射功率 */
 #define BLE_TX_POWER LL_TX_POWEER_0_DBM
 
 #define WAKE_UP_RTC_MAX_TIME				45
